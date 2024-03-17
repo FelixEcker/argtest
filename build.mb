@@ -20,12 +20,14 @@ sector targets
   section debug
     str exec '#!/bin/bash
 $(/config/files/setup)
-fpc $(/config/files/src) -FE"$(/config/files/out)" -g -dDEBUG'
+fpc $(/config/files/src) -FE"$(/config/files/out)" -g -dDEBUG || exit 127
+mv out/argtest .'
   end
 
   section release
     str exec '#!/bin/bash
 $(/config/files/setup)
-fpc $(/config/files/src) -FE"$(/config/files/out)" -XX -Xs -O4'
+fpc $(/config/files/src) -FE"$(/config/files/out)" -XX -Xs -O4 || exit 127
+mv out/argtest .'
   end
 end
