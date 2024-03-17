@@ -1,0 +1,31 @@
+sector config
+  section files
+    str out 'out/'
+    str src 'src/argtest.pas'
+
+    str setup '
+if [[ ! -d $(/config/files/out) ]]; then
+  mkdir $(/config/files/out)
+fi
+    '
+  end
+
+  section mariebuild
+    list str targets 'debug', 'release'
+    str default 'release'
+  end
+end
+
+sector targets
+  section debug
+    str exec '#!/bin/bash
+$(/config/files/setup)
+fpc $(/config/files/src) -FE"$(/config/files/out)" -g -dDEBUG'
+  end
+
+  section release
+    str exec '#!/bin/bash
+$(/config/files/setup)
+fpc $(/config/files/src) -FE"$(/config/files/out)" -XX -Xs -O4'
+  end
+end
